@@ -29,10 +29,10 @@ HashTable *CreateTable();
 int Hash(const char *word, int size);
 
 /* to see if data exists in hash table */
-data *Search(int key);
+data Search(HashTable *hashTable, char *word);
 
 /* to place data, returns 1 if success */
-int PlaceData(data);
+void PlaceData(HashTable *hashTable, data d);
 
 /* add more spaces to the table */
 HashTable *ReHashTable(HashTable hashTable);
@@ -41,6 +41,43 @@ HashTable *ReHashTable(HashTable hashTable);
 int main()
 {
 	return 0;
+}
+
+
+
+/* space for main functions */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+data Search(HashTable *hashTable, char *word)
+{
+	data d;
+	d = (*(hashTable->table))[Hash(word, hashTable->size)];
+	return d;
+}
+
+void PlaceData(HashTable *hashTable, data d)
+{
+	
+	
+	
+	
+	
+	(*(hashTable->table))[Hash(d.word, hashTable->size)] = d;
 }
 
 
@@ -83,3 +120,36 @@ HashTable *CreateTable()
 	}
 	return newHashTable;
 }
+
+HashTable *ReHashTable(HashTable hashTable)
+{
+
+}
+
+
+
+
+
+/*
+
+main ()
+{
+	open stream
+
+	get first file
+
+	while(file != NULL)
+	{
+		character = getchar();
+		while(character != EOF)
+		{
+			char *word
+			word = readlongline();
+			StoreInHashTable(word);
+			character = getchar();
+		}
+		file = nextfile;
+	}
+}
+
+*/
