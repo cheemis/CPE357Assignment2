@@ -175,17 +175,17 @@ void FreeHashTable(HashTable *hashTable)
 
 
 
-/*
+
 
 main ()
 {
-	open stream
+	// open stream
 
-	get first file
-
+	// get first file
+	// T
 	while(file != NULL)
 	{
-		character = getchar();
+		character = getchar(f); 
 		while(character != EOF)
 		{
 			char *word
@@ -197,4 +197,4 @@ main ()
 	}
 }
 
-*/
+
