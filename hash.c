@@ -172,29 +172,3 @@ void FreeHashTable(HashTable *hashTable)
 	}
 	free(hashTable);
 }
-
-
-
-
-
-main ()
-{
-	// open stream
-
-	// get first file
-	// T
-	while(file != NULL)
-	{
-		character = getchar(f); 
-		while(character != EOF)
-		{
-			char *word
-			word = readlongline();
-			StoreInHashTable(word);
-			character = getchar();
-		}
-		file = nextfile;
-	}
-}
-
-
