@@ -167,6 +167,7 @@ void FreeHashTable(HashTable *hashTable)
 	{
 		if(hashTable->table[i] != NULL)
 		{
+			free(hashTable->table[i]->word);
 			free(hashTable->table[i]);
 		}
 	}
