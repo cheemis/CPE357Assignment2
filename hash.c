@@ -1,4 +1,7 @@
 #include "hash.h"
+/* Hash function from:
+ * https://stackoverflow.com/questions/7666509/hash-function-for-string
+ */
 
 
 int main(int argc, char const *argv[])
