@@ -13,25 +13,28 @@ data *SearchForOccurance(HashTable *hashTable, const char *word)
 	 * NULL is returned */
 
 	int i;
-	printf("%c", *word);
+	
 	int hash = Hash(word, hashTable->size);
-
-	// /* check latter half of list for word */
+	
+	/* check latter half of list for word */
 	for(i = hash; i < hashTable->size; i++)
 	{
-		if(hashTable->table[i] == NULL && (hashTable->table[i])->word == word)
+		if(hashTable->table[i] == NULL || (hashTable->table[i])->word == word)
 		{
-			return (hashTable->table[i]);
+			printf("found a place in the table: %p\n", hashTable->table[i]);
+			return &(hashTable->table[i]);
 		}
 	}
 
 	for(i = 0; i < hash; i++)
 	{
-		if(hashTable->table[i] == NULL && (hashTable->table[i])->word == word)
+		if(hashTable->table[i] == NULL || (hashTable->table[i])->word == word)
 		{
-			return (hashTable->table[i]);
+			printf("didn't found a place in the table\n");
+			return &(hashTable->table[i]);
 		}
 	}
+	printf("null\n");
 	return NULL;
 }
 
@@ -41,10 +44,8 @@ HashTable *PlaceWord(HashTable *hashTable, char *word)
 	 * returns the final hashtable, either a new one that is
 	 * larger or the old one passed into it. */
 
-	printf("HERE: %d", *word);
 	data *dataInHash = SearchForOccurance(hashTable, word);
 	HashTable *current = hashTable;
-	
 
 	if (dataInHash == NULL)
 	{
@@ -71,9 +72,9 @@ int PlaceData(HashTable *hashTable, data *d)
 	/* This function places data into a hashtable. The functions
 	 * returns an 1 if successful and a 0 if unsuccessful. */
 
+	int i;
 	int hash = Hash(d->word, hashTable->size);
 
-	int i;
 	/* check latter half of list for NULL space */
 	for(i = hash; i < hashTable->size; i++)
 	{
@@ -103,7 +104,6 @@ int Hash(const char *word, int size)
 	int hash = 1;
 	while (*word != '\0')
 	{
-		printf("%d", *word);
 		/* hash bitshifted to right 4 places + 
 		 * current letter floor divided by size */
 
@@ -130,12 +130,13 @@ HashTable *CreateTable(int size)
 	/* This function creates a hashtable my mallocing space for
  	 * the table itself and the array of spaces inside of it.  */
 
+	int i;
 	HashTable *newHashTable = malloc(sizeof(HashTable));
 	newHashTable->size = size;
 	
 	newHashTable->table = malloc(size * sizeof(data*));
 	
-	int i;
+
 	for(i = 0; i < size; i ++)
 	{
 		newHashTable->table[i] = NULL;
@@ -146,9 +147,11 @@ HashTable *CreateTable(int size)
 HashTable *ReHashTable(HashTable *hashTable)
 {
 	HashTable *newHashTable;
-	newHashTable = CreateTable(hashTable->size * 2);
 
 	int i;
+	newHashTable = CreateTable(hashTable->size * 2);
+
+	
 	for(i = 0; i < hashTable->size; i++)
 	{
 		PlaceData(newHashTable, (hashTable->table[i]));
@@ -196,17 +199,9 @@ void TurnHashTableToList(HashTable *hashTable, struct tuple tuples[])
 	{	
 		char str[5] = "test";
 		char *ptr = str;
-		// if(hashTable->table[i] != NULL)
+		/* if(hashTable->table[i] != NULL) */
 		addTupleToList(i, ptr, tuples);
 	}
 }
 
-
-// int main(int argc, char const *argv[])
-// {	
-// 	HashTable hashTable = *CreateTable(1024);
-// 	struct tuple tuples[10];
-// 	TurnHashTableToList(&hashTable, tuples);
-// 	return 0;
-// }
 

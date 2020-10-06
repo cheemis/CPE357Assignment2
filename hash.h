@@ -15,7 +15,7 @@ typedef struct HashTableStructure HashTable;
 struct HashTableStructure
 {
 	int size;
-	data **table;
+	data **table; == table[]
 };
 
 typedef struct {
