@@ -1,14 +1,9 @@
+#include <string.h>
 #include "hash.h"
+
 /* Hash function from:
  * https://stackoverflow.com/questions/7666509/hash-function-for-string
  */
-
-
-int main(int argc, char const *argv[])
-{
-	printf("this\n");
-	return 0;
-}
 
 
 data *SearchForOccurance(HashTable *hashTable, const char *word)
@@ -18,9 +13,10 @@ data *SearchForOccurance(HashTable *hashTable, const char *word)
 	 * NULL is returned */
 
 	int i;
+	printf("%c", *word);
 	int hash = Hash(word, hashTable->size);
 
-	/* check latter half of list for word */
+	// /* check latter half of list for word */
 	for(i = hash; i < hashTable->size; i++)
 	{
 		if(hashTable->table[i] == NULL && (hashTable->table[i])->word == word)
@@ -45,7 +41,7 @@ HashTable *PlaceWord(HashTable *hashTable, char *word)
 	 * returns the final hashtable, either a new one that is
 	 * larger or the old one passed into it. */
 
-
+	printf("HERE: %d", *word);
 	data *dataInHash = SearchForOccurance(hashTable, word);
 	HashTable *current = hashTable;
 	
@@ -105,11 +101,13 @@ int Hash(const char *word, int size)
 	/* This Function Hashes a word based on
 	 * the hashtable's size. */
 	int hash = 1;
-	
-	while (*word != '\0' || *word != '\n')
+	while (*word != '\0')
 	{
+		printf("%d", *word);
 		/* hash bitshifted to right 4 places + 
 		 * current letter floor divided by size */
+
+		/* credits go to this - http://www.cse.yorku.ca/~oz/hash.html */
 		hash = ((hash << 4) + (int)(*word)) % size;
 		word++;
 	}
@@ -176,3 +174,39 @@ void FreeHashTable(HashTable *hashTable)
 	}
 	free(hashTable);
 }
+
+struct tuple
+{
+	int occurance;
+	char word[30];
+};
+
+static int count = 0;
+
+void addTupleToList (int val, char *word, struct tuple tuples[]) {
+	printf("Adding '%s', mapped to %d\n", word, val);
+    strcpy(tuples[count].word, word);
+    tuples[count++].occurance = val;
+}
+
+void TurnHashTableToList(HashTable *hashTable, struct tuple tuples[])
+{
+	int i;
+	for(i = 0; i < hashTable->size; i++)
+	{	
+		char str[5] = "test";
+		char *ptr = str;
+		// if(hashTable->table[i] != NULL)
+		addTupleToList(i, ptr, tuples);
+	}
+}
+
+
+// int main(int argc, char const *argv[])
+// {	
+// 	HashTable hashTable = *CreateTable(1024);
+// 	struct tuple tuples[10];
+// 	TurnHashTableToList(&hashTable, tuples);
+// 	return 0;
+// }
+

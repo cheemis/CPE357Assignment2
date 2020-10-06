@@ -18,6 +18,11 @@ struct HashTableStructure
 	data **table;
 };
 
+typedef struct {
+	char *word;
+	int occurance;
+} Tuple;
+
 /* to create hashed data */
 data *CreateDataStructure(char *word, int size);
 

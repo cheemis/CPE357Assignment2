@@ -1,5 +1,5 @@
 COMPILER = gcc
-CFLAGS = -Wall -g -c
+CFLAGS = -Wall -g -pedantic -c
 
 
 hash: hash.o
@@ -9,16 +9,12 @@ hash: hash.o
 hash.o: hash.c
 	$(COMPILER) $(CFLAGS) -o hash.o hash.c
 
-
-
-fw: fw.o
-	$(COMPILER) -o fw.out fw.o
-	rm fw.o
+fw: fw.o hash.o
+	$(COMPILER) -o fw.out fw.o hash.o
+	rm fw.o hash.o
 
 fw.o: fw.c
 	$(COMPILER) $(CFLAGS) -o fw.o fw.c
-
-
 
 sort: sort.o
 	$(COMPILER) -o sort.out sort.o
@@ -26,3 +22,4 @@ sort: sort.o
 
 compare.o: sort.c
 	$(COMPILER) $(CFLAGS) -o sort.o sort.c
+
