@@ -46,3 +46,4 @@ HashTable *ReHashTable(HashTable *hashTable);
 
 /* frees a whole table and its data */
 void FreeHashTable(HashTable *hashTable);
+
