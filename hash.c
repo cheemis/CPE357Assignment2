@@ -6,35 +6,47 @@
  */
 
 
-data *SearchForOccurance(HashTable *hashTable, const char *word)
+data *SearchForOccurance(const HashTable *hashTable, const char *word)
 {
 	/* This function checks to see if a word exists in the hash table
 	 * If it does, then a pointer to the data is returned. Otherwise,
 	 * NULL is returned */
-
-	int i;
+	int i = 0;
 	
 	int hash = Hash(word, hashTable->size);
 	
 	/* check latter half of list for word */
 	for(i = hash; i < hashTable->size; i++)
 	{
-		if(hashTable->table[i] == NULL || (hashTable->table[i])->word == word)
+		printf("index: %d -> ", i);
+		printf("%p\n", (data*)hashTable->table[i]);
+
+		if(hashTable->table[i] == NULL)
 		{
-			printf("found a place in the table: %p\n", hashTable->table[i]);
+			printf("\tfound an empty place in the table: %p\n", hashTable->table[i]);
+			return &(hashTable->table[i]);
+		}
+		else if(hashTable->table[i] != NULL && (hashTable->table[i])->word == word)
+		{
+			printf("\tfound an existing place in the table: %p\n", hashTable->table[i]);
 			return &(hashTable->table[i]);
 		}
 	}
 
 	for(i = 0; i < hash; i++)
 	{
-		if(hashTable->table[i] == NULL || (hashTable->table[i])->word == word)
+		if(hashTable->table[i] == NULL)
 		{
-			printf("didn't found a place in the table\n");
+			printf("\tfound an empty place in the table: %p\n", hashTable->table[i]);
+			return &(hashTable->table[i]);
+		}
+		else if(hashTable->table[i] != NULL && (hashTable->table[i])->word == word)
+		{
+			printf("\tfound an existing place in the table: %p\n", hashTable->table[i]);
 			return &(hashTable->table[i]);
 		}
 	}
-	printf("null\n");
+
 	return NULL;
 }
 
@@ -53,16 +65,18 @@ HashTable *PlaceWord(HashTable *hashTable, char *word)
 		dataInHash = SearchForOccurance(current, word);
 	}
 
-	if(dataInHash)
+	if(dataInHash->occurance == 0)
 	{
-		dataInHash->occurance ++;
-	}
-	else
-	{
+		printf("mallocing new data\n");
 		data *newData = malloc(sizeof(data));
 		newData->occurance = 1;
 		newData->word = word;
 		dataInHash = newData;
+		
+	}
+	else
+	{
+		dataInHash->occurance ++;
 	}
 	return current;
 }
@@ -140,6 +154,11 @@ HashTable *CreateTable(int size)
 	for(i = 0; i < size; i ++)
 	{
 		newHashTable->table[i] = NULL;
+		if(newHashTable->table[i] != NULL)
+		{
+			printf("WHY: %p\n", newHashTable->table[i]);
+		}
+		
 	}
 	return newHashTable;
 }

@@ -62,23 +62,3 @@ int main(int argc, char const *argv[])
 
 	return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-data **newarray;
-for(i = 0; i < hastable.size; i++)
-if(element != NULL)
-{
-	realloc(newarray, sizeof(data))
-}
-return newarray
