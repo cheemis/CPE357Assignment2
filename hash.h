@@ -33,7 +33,7 @@ HashTable *CreateTable();
 int Hash(const char *word, int size);
 
 /* to see if data exists in hash table */
-data *SearchForOccurance(const HashTable *hashTable, const char *word);
+int SearchForOccurance(const HashTable *hashTable, const char *word);
 
 /* to place a word in a table, returns 1 if success */
 HashTable *PlaceWord(HashTable *hashTable, char *word);
