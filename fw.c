@@ -42,29 +42,32 @@ char read_word(FILE *f, HashTable hashTable) {
 }
 
 
-int main() {
+
+
+int main(int argc, char const *argv[])
+{
+	int i;
 	FILE *f;
 	char character;
 
 	HashTable hashTable = *CreateTable(SIZE);
 
-	f = fopen("TestInput", "r");
-	if (f == NULL) {
-        printf("Error opening file");
-        exit(1);
-    }
+	/* for loop for passing files */
+	for(i = 1; i < argc; i ++)
+	{
+		f = fopen(argv[i], "r");
+		if (f == NULL)
+		{
+			printf("Error opening file '%s'\n", argv[i]);
+    	}
+		else
+		{
+			do {
+			character = read_word(f, hashTable);
+			} while (character != EOF);
 
-	do {
-		character = read_word(f, hashTable);
-	} while (character != EOF);
-
-	fclose(f);
-
-
+			fclose(f);
+		}
+	}
 	return 0;
 }
-
-
-
-
-
