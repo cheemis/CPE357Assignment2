@@ -58,10 +58,6 @@ int main(int argc, char const *argv[])
 	for(i = 1; i < argc; i ++)
 	{	
 		if (strcmp(argv[i], "-n") == 0) {
-			if (i-1 < argc) {
-				printf("invalid argument for -n, defaulting to 10\n");
-				break;
-			}
 			int n = atoi(argv[i+1]);
 			if (n > 0) {
 				nwords = n;
