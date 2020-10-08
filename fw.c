@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "hash.h"
 
 /* global vars */
 # define SIZE 1024
+# define DEFAULT_NWORDS 10
 
 
 char read_word(FILE *f, HashTable *hashTable) {
@@ -24,8 +26,11 @@ char read_word(FILE *f, HashTable *hashTable) {
     			exit(EXIT_FAILURE);
     		}
     	}
+    	if (isalpha(c) == 0) {
+    		printf("not alpha char");
+    	}
+    	c = tolower(c);
     	word[i++] = c;
-		
     	c = getc(f);
     }
     
@@ -43,6 +48,7 @@ int main(int argc, char const *argv[])
 {
 	int i;
 	int nullcount = 0;
+	int nwords = DEFAULT_NWORDS;
 	FILE *f;
 	char character;
 
@@ -50,23 +56,36 @@ int main(int argc, char const *argv[])
 
 	/* for loop for passing files */
 	for(i = 1; i < argc; i ++)
-	{
-		f = fopen(argv[i], "r");
-		if (f == NULL)
+	{	
+		if (strcmp(argv[i], "-n") == 0) {
+			int n = atoi(argv[i+1]);
+			if (n > 0) {
+				nwords = n;
+				printf("Number of words: %i\n", n);
+			} else {
+				perror("Error, not a number");
+    			exit(EXIT_FAILURE);
+			}
+			i++;
+		} else 
 		{
-			printf("Error opening file '%s'\n", argv[i]);
-    	}
-		else
-		{
-			printf("File: %s\n", argv[i]);
+			f = fopen(argv[i], "r");
+			if (f == NULL)
+			{
+				perror("Error opening file\n");
+	    	}
+			else
+			{
+				printf("File: %s\n", argv[i]);
 
+				do {
+				character = read_word(f, hashTable);
+				} while (character != EOF);
 
-			do {
-			character = read_word(f, hashTable);
-			} while (character != EOF);
-
-			fclose(f);
+				fclose(f);
+			}
 		}
+
 	}
 	printf("hashed everything!\nTable: %p\tSize: %d\n", hashTable, hashTable->size);
 
@@ -84,5 +103,14 @@ int main(int argc, char const *argv[])
 	printf("null count in table: %d\n", nullcount);
 
 	FreeHashTable(hashTable);
+
+	int total = 100;
+
+	printf("The top %i words (out of %i) are:\n", nwords, total);
+
+	for (i=0; i<nwords; i++) {
+		printf("Word");
+	}
+
 	return 0;
 }

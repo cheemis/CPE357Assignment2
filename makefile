@@ -2,6 +2,8 @@ COMPILER = gcc
 CFLAGS = -Wall -g -pedantic -c
 
 
+all: hash fw
+
 hash: hash.o
 	$(COMPILER) -o hash.out hash.o
 	rm hash.o
@@ -23,3 +25,5 @@ sort: sort.o
 compare.o: sort.c
 	$(COMPILER) $(CFLAGS) -o sort.o sort.c
 
+clean:
+	rm -f fw.o hash.o *~
