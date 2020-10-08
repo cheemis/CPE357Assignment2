@@ -168,36 +168,12 @@ void FreeHashTable(HashTable *hashTable)
 	{
 		if(hashTable->table[i] != NULL)
 		{
-			free(hashTable->table[i]->word);
+			/* printf("i: %d, %p: ", i, hashTable->table[i]); */
+			/* printf("%s", hashTable->table[i]->word); */
+
+			/* free(hashTable->table[i]->word); */
 			free(hashTable->table[i]);
 		}
 	}
 	free(hashTable);
 }
-
-struct tuple
-{
-	int occurance;
-	char word[30];
-};
-
-static int count = 0;
-
-void addTupleToList (int val, char *word, struct tuple tuples[]) {
-	printf("Adding '%s', mapped to %d\n", word, val);
-    strcpy(tuples[count].word, word);
-    tuples[count++].occurance = val;
-}
-
-void TurnHashTableToList(HashTable *hashTable, struct tuple tuples[])
-{
-	int i;
-	for(i = 0; i < hashTable->size; i++)
-	{	
-		char str[5] = "test";
-		char *ptr = str;
-		/* if(hashTable->table[i] != NULL) */
-		addTupleToList(i, ptr, tuples);
-	}
-}
-

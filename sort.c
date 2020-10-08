@@ -1,64 +1,42 @@
 #include "hash.h"
 #include <string.h>
 
-int comp (const void *ap, const void *bp)
+int comp (const data *ap, const data *bp)
 {
 	int a,b;
 	int c = 0;
 
-
-	a = ((data *)ap)->occurance;
-	b = ((data *)bp)->occurance;
+	a = ap->occurance;
+	b = bp->occurance;
 
 	c = b - a;
 
 	if(c == 0)
 	{
-		printf("here\n");
-		char *ac = ((data *)ap)->word;
-		char *bc = ((data *)bp)->word;
-		
 		/* might need to swap order */
-		c = strcmp(bc, ac);
+		c = strcmp(ap->word, bp->word);
 	}
-
 	return c;
 }
 
-int main(int argc, char const *argv[])
+data **sortHashTable(HashTable *hashTable)
 {
-	/* this doesnt work but comp does */
-
+	int dataIndex = 0;
 	int i;
+	data **dataList;
 
-	data a;
-	a.occurance = 2;
-	a.word = "test";
-
-	data *aPtr = &a;
-
-	data b;
-	b.occurance = 3;
-	b.word = "aaa";
-
-	data *bPtr = &b;
-
-	data *points[2];
-	points[0] = aPtr;
-	points[1] = bPtr;
-
-	for(i = 0; i < 2; i++)
+	/* for loop to create list of data */
+	for(i = 0; i < hashTable->size; i ++)
 	{
-		printf("occurance: %d, Word: %s\n", points[i]->occurance, points[i]->word);
+		if(hashTable->table[i] != NULL)
+		{
+			dataList = realloc(dataList, (dataIndex + 1) * sizeof(data*));
+			dataList[dataIndex] = hashTable->table[i];
+			dataIndex ++;
+		}
 	}
-	printf("\n");
-
-	qsort(points, 2, sizeof(data), comp);
-
-	for(i = 0; i < 2; i++)
-	{
-		printf("occurance: %d, Word: %s\n", points[i]->occurance, points[i]->word);
-	}
-
-	return 0;
+	qsort(dataList,dataIndex, sizeof(data*), comp);
+	dataList = realloc(dataList, (dataIndex + 1) * sizeof(data*));
+	dataList[dataIndex] = NULL;
+	return dataList;
 }

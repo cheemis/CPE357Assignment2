@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
 #define SIZE 1024
 
@@ -47,3 +49,6 @@ HashTable *ReHashTable(HashTable *hashTable);
 /* frees a whole table and its data */
 void FreeHashTable(HashTable *hashTable);
 
+int comp (const data *ap, const data *bp);
+
+data **sortHashTable(HashTable *hashTable);

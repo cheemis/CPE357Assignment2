@@ -1,11 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "hash.h"
 
 /* global vars */
 # define SIZE 1024
 
+#define DEFAULT_NWORDS 10
 
 char read_word(FILE *f, HashTable *hashTable) {
 	/* given a file stream, returns the next word */
@@ -24,8 +22,11 @@ char read_word(FILE *f, HashTable *hashTable) {
     			exit(EXIT_FAILURE);
     		}
     	}
+    	if (isalpha(c) == 0) {
+    		printf("not alpha char");
+    	}
+    	c = tolower(c);
     	word[i++] = c;
-		
     	c = getc(f);
     }
     
@@ -46,43 +47,76 @@ int main(int argc, char const *argv[])
 	FILE *f;
 	char character;
 
+	int numWords = 0;
+
+	int nwords = DEFAULT_NWORDS;
+
+	data **sortedData = NULL;
+
+
 	HashTable *hashTable = CreateTable(SIZE);
 
 	/* for loop for passing files */
 	for(i = 1; i < argc; i ++)
-	{
-		f = fopen(argv[i], "r");
-		if (f == NULL)
+	{	
+		if (strcmp(argv[i], "-n") == 0)
 		{
-			printf("Error opening file '%s'\n", argv[i]);
-    	}
-		else
-		{
-			printf("File: %s\n", argv[i]);
-
-
-			do {
-			character = read_word(f, hashTable);
-			} while (character != EOF);
-
-			fclose(f);
-		}
-	}
-	printf("hashed everything!\nTable: %p\tSize: %d\n", hashTable, hashTable->size);
-
-		for(i = 0; i < hashTable->size; i ++)
-		{
-			if(hashTable->table[i] != NULL)
+			if(i + 1 < argc)
 			{
-				printf("Word: %s\tOccurance: %d\tAddress: %p\n", hashTable->table[i]->word, hashTable->table[i]->occurance, hashTable->table[i]);
+				int n = atoi(argv[i+1]);
+				if (n >= 0)
+				{
+					nwords = n;
+				}
+				else
+				{
+					perror("Error, not a number or negative number");
+					exit(EXIT_FAILURE);
+				}
 			}
 			else
 			{
-				nullcount ++;
+				perror("Error, no number specified");
+				exit(EXIT_FAILURE);
+			}
+			i++;
+		}
+		else 
+		{
+			f = fopen(argv[i], "r");
+			if (f == NULL)
+			{
+				perror("Error opening file\n");
+	    	}
+			else
+			{
+				do {
+				character = read_word(f, hashTable);
+				} while (character != EOF);
+
+				fclose(f);
 			}
 		}
-	printf("null count in table: %d\n", nullcount);
+	}
 
+	sortedData = sortHashTable(hashTable);
+
+	i = 0;
+	while(sortedData[i])
+	{
+		numWords ++;
+		i++;
+	}
+
+	printf("The top %d words (out of %d) are:\n", nwords, numWords);
+
+	i = 0;
+	while(sortedData[i] != NULL && i < nwords)
+	{
+		printf("\t %d %s\n", sortedData[i]->occurance, sortedData[i]->word);
+		i++;
+	}
+	
 	FreeHashTable(hashTable);
 	return 0;
 }
