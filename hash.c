@@ -18,7 +18,8 @@ int SearchForOccurance(const HashTable *hashTable, const char *word)
 	/* check latter half of list for word */
 	for(i = hash; i < hashTable->size; i++)
 	{
-		if(hashTable->table[i] == NULL || strcmp((hashTable->table[i])->word, word) == 0)
+		if(hashTable->table[i] == NULL ||
+		strcmp((hashTable->table[i])->word, word) == 0)
 		{
 			return i;
 		}
@@ -26,7 +27,8 @@ int SearchForOccurance(const HashTable *hashTable, const char *word)
 
 	for(i = 0; i < hash; i++)
 	{
-		if(hashTable->table[i] == NULL || strcmp((hashTable->table[i])->word, word) == 0)
+		if(hashTable->table[i] == NULL ||
+		strcmp((hashTable->table[i])->word, word) == 0)
 		{
 			return i;
 		}

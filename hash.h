@@ -49,6 +49,6 @@ HashTable *ReHashTable(HashTable *hashTable);
 /* frees a whole table and its data */
 void FreeHashTable(HashTable *hashTable);
 
-int comp (const data *ap, const data *bp);
+int comp (const void *ap, const void *bp);
 
 data **sortHashTable(HashTable *hashTable);

@@ -1,3 +1,13 @@
-cat cat   cat dog     dog        
-fish bird fish monkey fish
-duck bird fish monkey fish
+one
+
+seven seven
+seven seven
+seven seven
+seven
+
+three three three
+four four four four
+five five five five five
+
+ten ten ten ten ten
+ten ten ten ten ten

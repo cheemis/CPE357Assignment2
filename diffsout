@@ -1,0 +1,14 @@
+1,11c1
+< The top 10 words (out of 31670) are:
+<     57281 n
+<     56966 i
+<     56696 e
+<     56503 l
+<     56397 r
+<     56201 u
+<     56163 t
+<     56118 d
+<     55962 h
+<     55900 o
+---
+> Child process (29562) exited due to signal (Segmentation fault).

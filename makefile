@@ -10,7 +10,7 @@ hash.o: hash.c
 	$(COMPILER) $(CFLAGS) -o hash.o hash.c
 
 fw: fw.o hash.o sort.o
-	$(COMPILER) -o fw.out fw.o hash.o sort.o
+	$(COMPILER) -o fw fw.o hash.o sort.o
 	rm fw.o hash.o sort.o
 
 fw.o: fw.c

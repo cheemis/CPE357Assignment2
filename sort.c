@@ -1,42 +1,42 @@
 #include "hash.h"
 #include <string.h>
 
-int comp (const data *ap, const data *bp)
+int comp (const void *ap, const void *bp)
 {
-	int a,b;
+	data *a = *(data**)ap;
+	data *b = *(data**)bp;
 	int c = 0;
 
-	a = ap->occurance;
-	b = bp->occurance;
-
-	c = b - a;
-
+	c = b->occurance - a->occurance;
 	if(c == 0)
 	{
-		/* might need to swap order */
-		c = strcmp(ap->word, bp->word);
+		c = strcmp(b->word, a->word);
 	}
 	return c;
 }
 
 data **sortHashTable(HashTable *hashTable)
 {
-	int dataIndex = 0;
+	int arrayIndex = 0;
 	int i;
-	data **dataList;
+	data **dataList = NULL;
 
 	/* for loop to create list of data */
 	for(i = 0; i < hashTable->size; i ++)
 	{
 		if(hashTable->table[i] != NULL)
 		{
-			dataList = realloc(dataList, (dataIndex + 1) * sizeof(data*));
-			dataList[dataIndex] = hashTable->table[i];
-			dataIndex ++;
+			dataList = realloc(dataList,
+					   (arrayIndex + 1) * sizeof(data*));
+
+			dataList[arrayIndex] = hashTable->table[i];
+			
+			arrayIndex ++;
 		}
 	}
-	qsort(dataList,dataIndex, sizeof(data*), comp);
-	dataList = realloc(dataList, (dataIndex + 1) * sizeof(data*));
-	dataList[dataIndex] = NULL;
+	qsort(dataList, arrayIndex, sizeof(data*), comp);
+
+	dataList = realloc(dataList, (arrayIndex + 1) * sizeof(data*));
+	dataList[arrayIndex] = NULL;
 	return dataList;
 }
